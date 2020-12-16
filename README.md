@@ -17,7 +17,6 @@ All credits for this plugin will go to [Arti](https://gitlab.com/artemiswkearney
 
 ## Current Known Issues
 * Minor overlap occurs with some text strings.
-* Logger will not work in `FailTextRandomizer.cs`.
 
 ## Dependencies
 * BSIPA v4.0.9
@@ -27,3 +26,6 @@ All credits for this plugin will go to [Arti](https://gitlab.com/artemiswkearney
 ## Installation
 
 Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFailText/releases/ "Mod Releases Page") page and install it in your Plugins folder at your Beat Saber directory.
+
+## Contributing to CustomFailText
+Download the source code, and open the project in Visual Studio 2019. You may need to resolve your references, but after that you should be able to build the project. If you have any suggestions, feel free to submit a pull request!
