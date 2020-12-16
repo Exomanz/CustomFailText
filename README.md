@@ -29,3 +29,16 @@ Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFai
 
 ## Contributing to CustomFailText
 Download the source code, and open the project in Visual Studio 2019. You may need to resolve your references, but after that you should be able to build the project. If you have any suggestions, feel free to submit a pull request!
+
+## Example Screenshots
+* Standard Text
+
+![alt-text](https://github.com/Exomanz/CustomFailText/blob/main/Screenshots/standard%20text.png "Standard Text")
+
+* TextMeshPro Colors
+
+![alt-text](https://github.com/Exomanz/CustomFailText/blob/main/Screenshots/textmeshpro%20colors.png "TextMeshPro Colors")
+
+* TextMeshPro Size
+
+![alt-text](https://github.com/Exomanz/CustomFailText/blob/main/Screenshots/textmeshpro%20size.png "TextMeshPro Size")
