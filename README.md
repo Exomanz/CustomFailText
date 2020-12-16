@@ -15,6 +15,10 @@ All credits for this plugin will go to [Arti](https://gitlab.com/artemiswkearney
 * Clean up the code.
 * Suggestions are welcome!
 
+## Current Known Issues
+* Minor overlap occurs with some text strings.
+* Logger will not work in `FailTextRandomizer.cs`.
+
 ## Dependencies
 * BSIPA v4.0.9
 * BS_Utils v1.6.5
