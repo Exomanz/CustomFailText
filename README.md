@@ -22,4 +22,4 @@ All credits for this plugin will go to [Arti](https://gitlab.com/artemiswkearney
 
 ## Installation
 
-Grab the latest version from the Releases page and install it in your Plugins folder at your Beat Saber directory.
+Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFailText/releases/ "Mod Releases Page") page and install it in your Plugins folder at your Beat Saber directory.
