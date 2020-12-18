@@ -11,18 +11,17 @@ All credits for this plugin and source code will go to [Arti](https://gitlab.com
 * Works in all game modes **(including online)**!
 
 ## Roadpath
-* Add support for multiple preset files and further mod config through in-game UI.
+* Add support for mutliple configs through existing UI.
 * Clean up and optimize the code.
 * Suggestions are welcome!
 
 ## Current Known Issues
 * Minor overlap occurs with some text strings.
-* If you fail twice in one level, the text string will change twice. *Duplicable by failing, then hitting a note while they're still dissolving.*
 
 ## Dependencies
 * BSIPA v4.0.9
-* BS_Utils v1.6.5
-* BSML v1.4.2 **(eventually)**
+* BS Utils v1.6.5
+* BSML v1.4.2
 
 ## Installation
 
