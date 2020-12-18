@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿using CustomFailText.UI;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using IPALogger = IPA.Logging.Logger;
 
 namespace CustomFailText
 {
     public class FailTextRandomizer : MonoBehaviour
     {
         #region Definitions
-        public static IPALogger Log { get; private set; }
         public static FailTextRandomizer randText;
         public TextMeshPro targetText;
         public GameEnergyCounter energyCounter;
@@ -56,10 +55,20 @@ namespace CustomFailText
 
         private void TextUpdates(string[] lines) 
         {
-            targetText.overflowMode = TextOverflowModes.Overflow;
+            targetText.overflowMode = 0;
             targetText.enableWordWrapping = false;
 
             targetText.text = string.Join("\n", lines);
+            //Disableable italics text
+            if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "italicText", false))
+            {
+                targetText.fontStyle = 0;
+            }
+            //Condition to destroy object on text update. Prevents multiple updates after failing
+            if (targetText.overflowMode == 0)
+            {
+                GameObject.Destroy(this);
+            }
         }
     }
 }

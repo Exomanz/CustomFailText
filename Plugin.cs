@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using IPA;
 using UnityEngine;
-using IPALogger = IPA.Logging.Logger;
-//using BeatSaberMarkupLanguage.Settings;
-//using CustomFailText.UI;
 using BS_Utils.Utilities;
+using IPA;
+using IPALogger = IPA.Logging.Logger;
+using CustomFailText.UI;
+using BeatSaberMarkupLanguage.Settings;
 
 namespace CustomFailText
 {
-    [Plugin(RuntimeOptions.SingleStartInit)]
+    [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
         #region Definitions
@@ -20,8 +20,8 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         public string Name => "CustomFailText";
-        public string Version => "1.0.0";
-        public string path = "\\UserData\\CustomFailText.txt";
+        public string Version => "1.1.0";
+        public string path = "\\UserData\\CustomFailText\\CustomFailText.txt";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
         #endregion
@@ -34,19 +34,19 @@ namespace CustomFailText
         }
 
         [OnStart]
-        public void OnStart()
+        public void OnApplicationStart()
         {
             Log.Info("CustomFailText Initialized.");
-            ReloadFile();
-            //BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.UI.settings.bsml", CFTConfig.Instance); To be added in a future version
+            BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.UI.settings.bsml", FailTextUI.instance);
             BSEvents.OnLoad();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
+            ReloadFile();
         }
 
         [OnExit]
-        public void OnExit()
+        public void OnApplicationQuit()
         { }
         private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
@@ -54,13 +54,16 @@ namespace CustomFailText
         }
         private void OnMenuSceneLoaded()
         {
-            Log.Info("Menu Scene Loaded. Attempting to destroy any old randomizers.");
+            Log.Info("Menu Scene Loaded. Destroying old randomizer.");
             UnityEngine.GameObject.Destroy(randText);
         }
         private void OnGameSceneLoaded()
         {
-            Log.Info("Game Scene Loaded. Creating New Randomizer, and attempting a text update.");
-            UnityEngine.GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer) }));
+            Log.Info("Game Scene Loaded. Creating new randomizer, and attempting a text update.");
+            if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "enablePlugin", true))
+            {
+                UnityEngine.GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer) }));
+            }
         }
         public void ReloadFile()
         {
