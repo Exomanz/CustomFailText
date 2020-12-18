@@ -64,10 +64,10 @@ namespace CustomFailText
             {
                 targetText.fontStyle = 0;
             }
-            //Condition to destroy object on text update. Prevents multiple updates after failing
-            if (targetText.overflowMode == 0)
+            //Prevents multiple text updates on one fail
+            if (targetText.isActiveAndEnabled)
             {
-                GameObject.Destroy(this);
+                Destroy(this);
             }
         }
     }

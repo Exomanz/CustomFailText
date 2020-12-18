@@ -20,7 +20,7 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         public string Name => "CustomFailText";
-        public string Version => "1.1.0";
+        public string Version => "1.1.1";
         public string path = "\\UserData\\CustomFailText\\CustomFailText.txt";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
@@ -54,8 +54,8 @@ namespace CustomFailText
         }
         private void OnMenuSceneLoaded()
         {
-            Log.Info("Menu Scene Loaded. Destroying old randomizer.");
-            UnityEngine.GameObject.Destroy(randText);
+            Log.Info("Menu Scene Loaded. Destroying old randomizers.");
+            GameObject.Destroy(GameObject.Find("FailTextRandomizer"));
         }
         private void OnGameSceneLoaded()
         {
@@ -65,6 +65,7 @@ namespace CustomFailText
                 UnityEngine.GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer) }));
             }
         }
+
         public void ReloadFile()
         {
             allEntries = ReadFromFile(path);
