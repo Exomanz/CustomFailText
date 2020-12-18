@@ -6,7 +6,7 @@ This plugin changes the default "LEVEL FAILED" text in Beat Saber to something m
 All credits for this plugin and source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder"), as I just updated it for the most recent version.
 
 ## Features
-* Picks a random entry from the config file at `/UserData/CustomFailText.txt`.
+* Picks a random entry from the config file at `/UserData/CustomFailText/CustomFailText.txt`.
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro Documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
 * Basic configuration through in-game UI.
 * Works in all game modes **(including online)**!
