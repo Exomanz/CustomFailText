@@ -20,9 +20,9 @@ All credits for this plugin and source code will go to [Arti](https://gitlab.com
 * Minor overlap occurs with some text strings.
 
 ## Dependencies
-* BSIPA v4.0.9
-* BS Utils v1.6.5
-* BSML v1.4.2
+* BSIPA v4.1.3+
+* BS Utils v1.6.5+
+* BSML v1.4.2+
 
 ## Installation
 
