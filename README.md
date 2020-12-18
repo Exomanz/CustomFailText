@@ -8,6 +8,7 @@ All credits for this plugin and source code will go to [Arti](https://gitlab.com
 ## Features
 * Picks a random entry from the config file at `/UserData/CustomFailText.txt`.
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro Documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
+* Basic configuration through in-game UI.
 * Works in all game modes **(including online)**!
 
 ## Roadpath
