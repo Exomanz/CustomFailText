@@ -16,11 +16,9 @@ namespace CustomFailText
     public class Plugin
     {
         #region Definitions
-        public FailTextRandomizer randText;
+        public CFTRandomizer randText;
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
-        public string Name => "CustomFailText";
-        public string Version => "1.1.1";
         public string path = "\\UserData\\CustomFailText\\CustomFailText.txt";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
@@ -39,9 +37,11 @@ namespace CustomFailText
             Log.Info("CustomFailText Initialized.");
             BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.UI.settings.bsml", FailTextUI.instance);
             BSEvents.OnLoad();
+            #region Scenes
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
+            #endregion
             ReloadFile();
         }
 
@@ -54,15 +54,14 @@ namespace CustomFailText
         }
         private void OnMenuSceneLoaded()
         {
-            Log.Info("Menu Scene Loaded. Destroying old randomizers.");
-            GameObject.Destroy(GameObject.Find("FailTextRandomizer"));
+            Log.Info("Menu Scene Loaded.");
         }
         private void OnGameSceneLoaded()
         {
             Log.Info("Game Scene Loaded. Creating new randomizer, and attempting a text update.");
             if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "enablePlugin", true))
             {
-                UnityEngine.GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer) }));
+                GameObject.DontDestroyOnLoad(new GameObject("CFTRandomizer", new Type[] { typeof(CFTRandomizer) }));
             }
         }
 
