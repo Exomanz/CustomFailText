@@ -1,7 +1,7 @@
 # CustomFailText
 Changes the default fail text to something more customizable. It's your text--make it what you want.
 
-All credits for this plugin and source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder"), as I just updated it for the most recent version.
+All credits for the source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
 
 ## Features
 * Picks a random entry from the config file at `Beat Saber/UserData/CustomFailText/CustomFailText.txt`.
