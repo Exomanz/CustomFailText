@@ -1,4 +1,5 @@
 ﻿using CustomFailText.UI;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace CustomFailText
         public TextMeshPro targetText;
         public GameEnergyCounter energyCounter;
         public bool latch;
+        public bool updateHappened;
         #endregion
 
         public IEnumerator Start()
@@ -22,10 +24,11 @@ namespace CustomFailText
             }
             targetText = GameObject.Find("LevelFailedTextEffect")?.GetComponent<TextMeshPro>();
             energyCounter = GameObject.Find("GameplayData")?.GetComponent<GameEnergyCounter>();
+            updateHappened = false;
         }
 
         public void LateUpdate()
-        {
+        { 
             if (energyCounter.energy < 1E-05f)
             {
                 if (latch) return;
@@ -51,19 +54,18 @@ namespace CustomFailText
 
         private void TextUpdates(string[] lines)
         {
-            targetText.overflowMode = 0;
-            targetText.enableWordWrapping = false;
+            if (updateHappened == false)
+            {
+                updateHappened = true;
+                targetText.overflowMode = 0;
+                targetText.enableWordWrapping = false;
 
-            targetText.text = string.Join("\n", lines);
-            //Disableable Italics Text
-            if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "italicText", false))
-            {
-                targetText.fontStyle = 0;
-            }
-            //Prevent Multiple Updates On Fail
-            if (targetText.isActiveAndEnabled == true)
-            {
-                GameObject.Destroy(GameObject.Find("CFTRandomizer"));
+                targetText.text = string.Join("\n", lines);
+                //Disableable Italics Text
+                if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "italicText", false))
+                {
+                    targetText.fontStyle = 0;
+                }
             }
         }
     }

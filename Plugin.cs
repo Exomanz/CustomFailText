@@ -38,7 +38,6 @@ namespace CustomFailText
             BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.UI.settings.bsml", FailTextUI.instance);
             BSEvents.OnLoad();
             #region Scenes
-            BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
             #endregion
@@ -48,17 +47,14 @@ namespace CustomFailText
         [OnExit]
         public void OnApplicationQuit()
         { }
-        private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
-        {
-            Log.Info("Menu Scene Loaded Fresh.");
-        }
         private void OnMenuSceneLoaded()
         {
-            Log.Info("Menu Scene Loaded.");
+            Log.Info("Menu Scene Loaded. Destroying old randomizer...");
+            GameObject.Destroy(GameObject.Find("CFTRandomizer"));
         }
         private void OnGameSceneLoaded()
         {
-            Log.Info("Game Scene Loaded. Creating new randomizer, and attempting a text update.");
+            Log.Info("Game Scene Loaded. Creating new randomizer and waiting for fail...");
             if (FailTextConfig.FailConfig.GetBool("Custom Fail Text", "enablePlugin", true))
             {
                 GameObject.DontDestroyOnLoad(new GameObject("CFTRandomizer", new Type[] { typeof(CFTRandomizer) }));
@@ -176,7 +172,7 @@ OVER
 
 # the ""empty"" line in this one actually has a space in it, so it doesn't separate entries
 DEFEAT<size=-5>
-
+ 
 PLAY OF THE GAME:</size>
 <#800000>RED BLOCK</color>
 

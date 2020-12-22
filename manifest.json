@@ -2,8 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/beat-saber-modding-group/BSIPA-MetadataFileSchema/master/Schema.json",
   "id": "CustomFailText",
   "name": "CustomFailText",
-  "author": "Exomanz, with inspiration from Arti",
-  "version": "1.1.2",
+  "author": "Exomanz",
+  "version": "1.1.1",
   "description": "Replaces the old 'Level Failed' text with something customizable.",
   "gameVersion": "1.13.0",
   "dependsOn": {
