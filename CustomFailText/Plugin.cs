@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BS_Utils.Utilities;
+using BeatSaberMarkupLanguage.Settings;
+using CustomFailText.Settings;
 using IPA;
 using IPALogger = IPA.Logging.Logger;
+using IPA.Utilities;
 using UnityEngine;
 
 namespace CustomFailText
@@ -17,8 +20,7 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         public string Name => "CustomFailText";
-        public string Version => "1.0.0";
-        public string path = "\\UserData\\CustomFailText.txt";
+        public string Version => " v1.0.1";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
         #endregion
@@ -33,12 +35,14 @@ namespace CustomFailText
         [OnStart]
         public void OnStart()
         {
-            Log.Info("CustomFailText Initialized.");
-            ReloadFile();
+            Log.Info($"{Name + Version} Initialized.");
+            #region BSEvents
             BSEvents.OnLoad();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
+            #endregion
+            BSMLSettings.instance.AddSettingsMenu("CustomFailText", "CustomFailText.Settings.Views.settings.bsml", SettingsManager.instance);
         }
 
         [OnExit]
@@ -46,7 +50,8 @@ namespace CustomFailText
         { }
         private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
-            Log.Info("Menu Scene Loaded Fresh.");
+            Log.Info("Menu Scene Loaded Fresh!");
+            ReloadFile();
         }
         private void OnMenuSceneLoaded()
         {
@@ -55,24 +60,29 @@ namespace CustomFailText
         }
         private void OnGameSceneLoaded()
         {
-            Log.Info("Game Scene Loaded. Creating new randomizer.");
-            GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer)}));
+            if (Configuration.config.GetBool("Custom Fail Text", "enablePlugin") == true)
+            {
+                Log.Info("Game Scene Loaded. Creating new randomizer.");
+                GameObject.DontDestroyOnLoad(new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer)}));
+            }
         }
 
         private void ReloadFile()
         {
-            allEntries = ReadFromFile(path);
+            allEntries = ReadFromFile();
         }
 
-        public static List<string[]> ReadFromFile(string path)
+        //Reads lines only from "Default.txt" and populates entries--will eventually be writing a new List<> for custom configuration files.
+        public static List<string[]> ReadFromFile()
         {
             List<string[]> entriesInFile = new List<string[]>();
-            string gameDir = Environment.CurrentDirectory;
-            gameDir.Replace("\\", "/");
+            string path = $"{UnityGame.InstallPath}\\UserData\\CustomFailText\\";
+            string _ = "Default.txt";
 
-            if (File.Exists(gameDir + path))
+            if (File.Exists(path + _))
             {
-                var linesInFile = File.ReadLines(gameDir + path, new UTF8Encoding(true));
+                Log.Info("Default config found!");
+                var linesInFile = File.ReadLines(path + _, new UTF8Encoding(true));
                 linesInFile = linesInFile.Where(s => s == "" || s[0] != '#');
 
                 List<string> currentEntry = new List<string>();
@@ -99,28 +109,31 @@ namespace CustomFailText
             }
             else
             {
+                Log.Warn($"No file {_} found at {path}. Making one now.");
                 try
                 {
-                    using (FileStream fs = File.Create(gameDir + path))
+                    Directory.CreateDirectory(path);
+                    using (FileStream fs = File.Create(path + _))
                     {
                         Byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
                             ("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n"));
                         fs.Write(info, 0, info.Length);
+                        Log.Notice($"New file {_} was created successfully at {path}!");
                     }
                 }
                 catch (Exception)
                 {
                     return entriesInFile;
                 }
-                return ReadFromFile(path);
+                return ReadFromFile();
             }
 
             return entriesInFile;
         }
         public const string DEFAULT_CONFIG =
         #region Default Config
-@"# Custom Fail Text v1.1.2
-# by Exomanz/Arti
+@"# Custom Fail Text v1.0.1
+# by Exomanz
 #
 # Use # for comments!
 # Separate entries with empty lines; a random one will be picked each time you fail a song.

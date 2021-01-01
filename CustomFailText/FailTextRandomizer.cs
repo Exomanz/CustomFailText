@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CustomFailText.Settings;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -53,11 +54,19 @@ namespace CustomFailText
         {
             if (updated == false)
             {
+                //Prevents multiple updates.
                 updated = true;
+
+                //Standard (required) updates.
                 targetText.overflowMode = TextOverflowModes.Overflow;
                 targetText.enableWordWrapping = false;
-
                 targetText.text = string.Join("\n", lines);
+
+                //Disableable italics text
+                if (Configuration.italicText == true)
+                {
+                    targetText.fontStyle = FontStyles.Normal;
+                }
             }
         }
     }

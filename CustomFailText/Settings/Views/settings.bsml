@@ -1,0 +1,17 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+	<settings-container>
+		<horizontal bg='panel-top' pad-left='5' pad-right='5' pad-top='1' horizontal-fit='PreferredSize'>
+			<text text='Custom Fail Text' font-size='8' italics='True'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<bool-setting text='Enable Plugin' value='enabled'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize'>
+			<bool-setting text='Disable Italics Text' value='italics' hover-hint='Toggles italic text for fail effects, unless TMP styles say otherwise.'/>
+		</horizontal>
+		<horizontal horizontal-fit='PreferredSize' spacing='10'>
+			<button text='Reload Config' on-click='reloadDefault' hover-hint='Reloads the default config and any changes that might have been made.'/>
+			<button text='Dummy Button' on-click='dummyButton' hover-hint='Does nothing right now... I mean, you can click it, I guess.'/>
+		</horizontal>
+	</settings-container>
+</bg>
