@@ -6,7 +6,7 @@ All credits for the source code will go to [Arti](https://gitlab.com/artemiswkea
 ## Features
 * Picks a random entry from the selected config file at `Beat Saber/UserData/CustomFailText/`.
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
-* Works in all game modes **(including online)**!
+* Works in all game modes.
 * Multi-config support, and basic settings from in-game UI panel.
 
 ## Roadpath
