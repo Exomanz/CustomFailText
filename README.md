@@ -36,7 +36,7 @@ This is also one entry.
 <size=+30>Hello world!
 
 Hello world! (but smaller)
-# The second entry is not affected by the size tag that was left unclosed, since it's a different entry.
+# The entry above isn't affected by the size tag that was left unclosed since it's a different entry.
 ```
 
 ## Installation
