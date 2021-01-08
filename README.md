@@ -10,7 +10,7 @@ All credits for the source code will go to [Arti](https://gitlab.com/artemiswkea
 * Multi-config support, and basic settings from in-game UI panel.
 
 ## Roadpath
-* More optimization to make the plugin lighter.
+* Optimization to make the plugin lighter.
 * Migrate settings to menu button.
 * Allow customization of the effect backlighting (disable, and set colors).
 * Hot-reloading of config files.
