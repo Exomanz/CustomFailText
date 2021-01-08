@@ -1,11 +1,15 @@
-﻿ using BeatSaberMarkupLanguage.Attributes;
+﻿using BeatSaberMarkupLanguage.Attributes;
+using IPA.Utilities;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace CustomFailText.Settings
 {
     public class SettingsManager : PersistentSingleton<SettingsManager>
     {
         [UIValue("enabled")]
-        public virtual bool Enabled
+        public bool Enabled
         {
             get => Configuration.config.GetBool("Custom Fail Text", "enablePlugin", true, true);
             set
@@ -16,7 +20,7 @@ namespace CustomFailText.Settings
         }
 
         [UIValue("italics")]
-        public virtual bool Italics
+        public bool Italics
         {
             get => Configuration.config.GetBool("Custom Fail Text", "italicText", false, true);
             set
@@ -26,17 +30,35 @@ namespace CustomFailText.Settings
             }
         }
 
-        [UIAction("reloadDefault")]
-        private void ReloadDefault()
+        [UIValue("selectedConfig")]
+        public string SelectedConfig
         {
-            Plugin.Log.Info("Reloading default config file!");
-            Plugin.ReadFromFile();
+            get => Configuration.config.GetString("Custom Fail Text", "config", "Default", true);
+            set
+            {
+                Configuration.selectedConfig = value;
+                Configuration.config.SetString("Custom Fail Text", "config", value);
+            }
         }
 
-        [UIAction("dummyButton")]
-        private void DummyButton()
+        [UIValue("configList")]
+        public List<object> configList = GetConfigs().ToList();
+        public static List<object> GetConfigs()
         {
-            Plugin.Log.Debug("I told you it didn't do anything! Don't say I didn't warn you.");
+            List<object> configs = new List<object>();
+            string configDir = $"{UnityGame.UserDataPath}\\CustomFailText\\";
+            var configsAvailable = Directory.GetFiles(configDir, "*.txt");
+            Plugin.Log.Debug("Available configs:");
+
+            foreach (string config in configsAvailable)
+            {
+                Plugin.Log.Debug(config.Replace(configDir, "").Replace(".txt", ""));
+                configs.Add(config.Replace(configDir, "").Replace(".txt", ""));
+            }
+            return configs;
         }
+
+        [UIAction("#apply")]
+        public void OnApply() => Plugin.Log.Notice($"Config updated to {SelectedConfig}");
     }
 }
