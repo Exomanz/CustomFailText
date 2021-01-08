@@ -1,5 +1,4 @@
 ﻿using CustomFailText.Settings;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -14,12 +13,8 @@ namespace CustomFailText
         public bool updated;
         #endregion
 
-        public IEnumerator Start()
+        public void Start()
         {
-            while (GameObject.Find("GameplayData") == null && GameObject.Find("LevelFailedTextEffect") == null)
-            {
-                yield return new WaitForEndOfFrame();
-            }
             targetText = GameObject.Find("LevelFailedTextEffect")?.GetComponent<TextMeshPro>();
             energyCounter = GameObject.Find("GameplayData")?.GetComponent<GameEnergyCounter>();
             updated = false;
@@ -31,26 +26,44 @@ namespace CustomFailText
             {
                 if (latch) return;
                 latch = true;
-
-                if (Plugin.allEntries.Count == 0)
-                {
-                    TextUpdates(Plugin.DEFAULT_TEXT);
-                }
-                else
-                {
-                    System.Random r = new System.Random();
-                    int entryPicked = r.Next(Plugin.allEntries.Count);
-
-                    TextUpdates(Plugin.allEntries[entryPicked]);
-                }
+                Randomize();
             }
             else
             {
                 latch = false;
             }
         }
+        
+        private void Randomize()
+        {
+            System.Random r = new System.Random();
+            if (Configuration.selectedConfig == "Default")
+            {
+                if (Plugin.allEntries.Count == 0)
+                {
+                    Updates(Plugin.DEFAULT_TEXT);
+                }
+                else
+                {
+                    int entryPicked = r.Next(Plugin.allEntries.Count);
+                    Updates(Plugin.allEntries[entryPicked]);
+                }
+            }
+            else
+            {
+                if (Plugin.allCustomEntries.Count == 0) //If for some reason your config file has no entries... not sure why it would be empty--you made it.
+                {
+                    Updates(Plugin.DEFAULT_TEXT);
+                }
+                else
+                {
+                    int entryPicked = r.Next(Plugin.allCustomEntries.Count);
+                    Updates(Plugin.allCustomEntries[entryPicked]);
+                }
+            }
+        }
 
-        private void TextUpdates(string[] lines) 
+        private void Updates(string[] lines) 
         {
             if (updated == false)
             {
