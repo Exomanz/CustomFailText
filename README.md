@@ -40,7 +40,7 @@ Hello world! (but smaller)
 ```
 
 ## Installation
-Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFailText/releases/latest "releases") page and install it in your Plugins folder at your Beat Saber directory.
+Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFailText/releases/latest "releases") page and install it in your Plugins folder at your Beat Saber directory. The mod will do all of the directory and file creation for you, unless you're making a custom file, in which case you have to do it yourself.
 
 ## Contributing to CustomFailText
 Download the source code, and open the project in Visual Studio 2019. You may need to resolve your references, but after that you should be able to build the project. If you have any suggestions, feel free to submit a pull request!
