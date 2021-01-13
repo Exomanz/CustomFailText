@@ -3,7 +3,7 @@
   "id": "CustomFailText",
   "name": "CustomFailText",
   "author": "Exomanz",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Replaces the old 'Level Failed' text with something customizable.",
   "gameVersion": "1.13.0",
   "dependsOn": {

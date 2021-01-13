@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using BeatSaberMarkupLanguage.Settings;
 using BS_Utils.Utilities;
-using BeatSaberMarkupLanguage.Settings;
 using CustomFailText.Settings;
 using IPA;
 using IPALogger = IPA.Logging.Logger;
 using IPA.Utilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace CustomFailText
@@ -19,25 +19,25 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         internal string Name => "CustomFailText";
-        internal string Version => " v1.0.2";
+        internal string Version => " v1.0.3-pre1";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
         public static List<string[]> allCustomEntries = null;
-
 
         [Init]
         public void Init(IPALogger logger)
         {
             Instance = this;
             Log = logger;
+            Configuration.selectedConfig = Configuration.config.GetString("Text", "config");
+            Configuration.RefreshSettingsOnGameStart();
+            CheckForDefault();
         }
 
         [OnStart]
         public void OnStart()
         {
             Log.Info($"{Name + Version} Initialized.");
-            CheckForDefault();
-            BSEvents.OnLoad();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
@@ -53,16 +53,13 @@ namespace CustomFailText
             ReloadFile();
         }
         private void OnMenuSceneLoaded()
-        {
-            Log.Info("Menu Scene Loaded. Destroying old randomizer.");
-            GameObject.Destroy(GameObject.Find("FailTextRandomizer"));
-        }
+        {   }
         private void OnGameSceneLoaded()
         {
-            if (Configuration.config.GetBool("Custom Fail Text", "enablePlugin") == true)
+            if (Configuration.config.GetBool("Text", "enablePlugin") == true)
             {
                 Log.Info("Game Scene Loaded. Creating new randomizer.");
-                new GameObject("FailTextRandomizer", new Type[] { typeof(FailTextRandomizer)});
+                new GameObject("_MasterUpdater", new Type[] { typeof(Updater)});
             }
         }
         public void ReloadFile()
@@ -99,7 +96,7 @@ namespace CustomFailText
                     Directory.CreateDirectory($"{UnityGame.InstallPath}\\UserData\\CustomFailText");
                     using (FileStream fs = File.Create(path + name))
                     {
-                        Byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
+                        byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
                             ("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n"));
                         fs.Write(info, 0, info.Length);
                         Log.Notice($"New file {name} was created successfully at {path}!");
@@ -108,7 +105,7 @@ namespace CustomFailText
             }
         }
 
-        //Reads lines from selected config with name mathcing mod settings field.
+        //Reads lines from selected config in mod menu.
         public static List<string[]> ReadFromCustomFile()
         {
             List<string[]> entriesInCustomFile = new List<string[]>();
@@ -145,7 +142,7 @@ namespace CustomFailText
             return entriesInCustomFile;
         }
 
-        //Reads lines only from "Default.txt" and populates entries.
+        //Reads lines from default file.
         public static List<string[]> ReadFromFile()
         {
             List<string[]> entriesInFile = new List<string[]>();
