@@ -1,7 +1,7 @@
 # CustomFailText
 Changes the default `LEVEL FAILED` text effect to something more customizable. It's your text; make it what you want.
 
-All credits for the source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
+All credits for the original source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
 
 ## Features
 * Picks a random entry from the selected config file at `Beat Saber/UserData/CustomFailText/`.
