@@ -11,33 +11,33 @@ namespace CustomFailText.Settings
         [UIValue("enabled")]
         public bool Enabled
         {
-            get => Configuration.config.GetBool("Custom Fail Text", "enablePlugin", true, true);
+            get => Configuration.config.GetBool("Text", "enablePlugin", true, true);
             set
             {
                 Configuration.enablePlugin = value;
-                Configuration.config.SetBool("Custom Fail Text", "enablePlugin", value);
+                Configuration.config.SetBool("Text", "enablePlugin", value);
             }
         }
 
         [UIValue("italics")]
         public bool Italics
         {
-            get => Configuration.config.GetBool("Custom Fail Text", "italicText", false, true);
+            get => Configuration.config.GetBool("Text", "italicText", false, true);
             set
             {
                 Configuration.italicText = value;
-                Configuration.config.SetBool("Custom Fail Text", "italicText", value);
+                Configuration.config.SetBool("Text", "italicText", value);
             }
         }
 
         [UIValue("selectedConfig")]
         public string SelectedConfig
         {
-            get => Configuration.config.GetString("Custom Fail Text", "config", "Default", true);
+            get => Configuration.config.GetString("Text", "config", "Default", true);
             set
             {
                 Configuration.selectedConfig = value;
-                Configuration.config.SetString("Custom Fail Text", "config", value);
+                Configuration.config.SetString("Text", "config", value);
             }
         }
 
@@ -58,7 +58,42 @@ namespace CustomFailText.Settings
             return configs;
         }
 
-        [UIAction("#apply")]
-        public void OnApply() => Plugin.Log.Notice($"Config updated to {SelectedConfig}");
+        #region Color Provider
+        [UIValue("topBacklightColor")]
+        public string TopBacklightColor
+        {
+            get => Configuration.config.GetString("Lights", "topLightColor", "Default", true);
+            set
+            {
+                Configuration.topLightColor = value;
+                Configuration.config.SetString("Lights", "topLightColor", value);
+            }
+        }
+
+        [UIValue("midBacklightColor")]
+        public string MidBacklightColor
+        {
+            get => Configuration.config.GetString("Lights", "midLightColor", "Default", true);
+            set
+            {
+                Configuration.midLightColor = value;
+                Configuration.config.SetString("Lights", "midLightColor", value);
+            }
+        }
+
+        [UIValue("botBacklightColor")]
+        public string BotBacklightColor
+        {
+            get => Configuration.config.GetString("Lights", "botLightColor", "Default", true);
+            set
+            {
+                Configuration.botLightColor = value;
+                Configuration.config.SetString("Lights", "botLightColor", value);
+            }
+        }
+        
+        [UIValue("colorsList")]
+        public List<object> colorsList = new object[] { "Red", "Blue", "Cyan", "Gray", "Green", "Magenta", "Yellow", "White" }.ToList();
+        #endregion
     }
 }

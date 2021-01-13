@@ -1,14 +1,31 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<settings-container>
-		<horizontal bg='panel-top' pad-left='5' pad-right='5' pad-top='1' horizontal-fit='PreferredSize'>
-			<vertical>
-				<text text='Custom Fail Text v1.0.2' font-size='8' italics='True' align='Center'/>
-			</vertical>
+		<horizontal bg='panel-top' pad-left='5' pad-right='5' pad-top='1' spacing='2' horizontal-fit='PreferredSize'>
+			<text text='Custom Fail Text' font-size='7' italics='True' align='Center'/>
+			<text text=':' font-size='7' italics='True' align='Center'/>
+			<text text='v1.0.3-pre1' font-size='7' italics='True' align='Center' color='Orange'/>
 		</horizontal>
 		<vertical vertical-fit='PreferredSize'>
 			<bool-setting text='Enable Plugin' value='enabled'/>
 			<bool-setting text='Disable Italics Text' value='italics' hover-hint='Toggles italic text for fail effects, unless TMP styles say otherwise.'/>
 			<dropdown-list-setting text='Available Configs' value='selectedConfig' choices='configList'/>
 		</vertical>
+		<horizontal horizontal-fit='PreferredSize' pad-top='6'>
+			<settings-submenu text='--Backlight Settings--' font-size='7' hover-hint='Configure effect backlight settings.'>
+				<settings-container>
+					<horizontal bg='panel-top' horizontal-fit='PreferredSize' pad-left='5' pad-right='5' pad-top='1'>
+						<text text='Backlight Settings' font-size='7' italics='True' align='Center'/>
+					</horizontal>
+					<vertical vertical-fit='PreferredSize'>
+						<dropdown-list-setting text='Top Light Color' value='topBacklightColor' choices='colorsList'/>
+						<dropdown-list-setting text='Middle Light Color' value='midBacklightColor' choices='colorsList'/>
+						<dropdown-list-setting text='Bottom Light Color' value ='botBacklightColor' choices='colorsList'/>
+					</vertical>
+					<horizontal horizontal-fit='PreferredSize'>
+						<clickable-text text='--Back--' click-event='back' font-size='7' italics='True'/>
+					</horizontal>
+				</settings-container>
+			</settings-submenu>
+		</horizontal>
 	</settings-container>
 </bg>
