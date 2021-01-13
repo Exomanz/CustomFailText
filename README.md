@@ -8,11 +8,11 @@ All credits for the source code will go to [Arti](https://gitlab.com/artemiswkea
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
 * Works in all game modes.
 * Multi-config support, and basic settings from in-game UI panel.
+* Changing of the effect backlights is now supported, but only with certain colors.
 
 ## Roadpath
 * Optimization to make the plugin lighter.
 * Migrate settings to menu button.
-* Allow customization of the effect backlighting (disable, and set colors).
 * Hot-reloading of config files.
 
 ## Dependencies
