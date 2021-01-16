@@ -4,16 +4,14 @@ Changes the default `LEVEL FAILED` text effect to something more customizable. I
 All credits for the original source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
 
 ## Features
-* Picks a random entry from the selected config file at `Beat Saber/UserData/CustomFailText/`.
+* Picks a random entry from the selected config file at `Beat Saber/UserData/CustomFailText/`. You may also create your own here (see formatting below).
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
-* Works in all game modes.
-* Multi-config support, and basic settings from in-game UI panel.
-* Changing of the effect backlights is now supported, but only with certain colors.
+* Supports multiple config files, custom fail effect colors, all available from the `Mod Settings` menu.
 
 ## Roadpath
-* Optimization to make the plugin lighter.
 * Migrate settings to menu button.
 * Hot-reloading of config files.
+* Further optimizations.
 
 ## Dependencies
 * BSIPA v4.1.3+
