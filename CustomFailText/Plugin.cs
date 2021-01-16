@@ -2,8 +2,9 @@
 using BS_Utils.Utilities;
 using CustomFailText.Settings;
 using IPA;
-using IPALogger = IPA.Logging.Logger;
+using IPA.Config.Stores;
 using IPA.Utilities;
+using IPALogger = IPA.Logging.Logger;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,64 +20,64 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         internal string Name => "CustomFailText";
-        internal string Version => " v1.0.3-pre1";
+        internal string Version => " v1.1.0";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
         public static List<string[]> allCustomEntries = null;
 
+
         [Init]
-        public void Init(IPALogger logger)
+        public void Init(IPALogger logger, IPA.Config.Config conf)
         {
             Instance = this;
             Log = logger;
-            Configuration.selectedConfig = Configuration.config.GetString("Text", "config");
-            Configuration.RefreshSettingsOnGameStart();
-            CheckForDefault();
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
         }
 
         [OnStart]
         public void OnStart()
         {
             Log.Info($"{Name + Version} Initialized.");
+            CheckForDefault();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
-            BSMLSettings.instance.AddSettingsMenu("CustomFailText", "CustomFailText.Settings.Views.settings.bsml", SettingsManager.instance);
+            BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.Settings.Views.settings.bsml", SettingsManager.instance);
         }
 
         [OnExit]
         public void OnExit()
         { }
+
         private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
-            Log.Info("Menu Scene Loaded Fresh!");
+            Log.Info("Menu Scene Loaded Fresh");
             ReloadFile();
         }
         private void OnMenuSceneLoaded()
-        {   }
+        {
+            Log.Info("Menu Scene Loaded");
+        }
         private void OnGameSceneLoaded()
         {
-            if (Configuration.config.GetBool("Text", "enablePlugin") == true)
+            if (PluginConfig.Instance.Enabled)
             {
-                Log.Info("Game Scene Loaded. Creating new randomizer.");
+                Log.Info("Game Scene Loaded");
                 new GameObject("_MasterUpdater", new Type[] { typeof(Updater)});
             }
         }
+
         public void ReloadFile()
         {
-            if (Configuration.selectedConfig == "Default")
+            if (PluginConfig.Instance.SelectedConfig == "Default")
             {
-                string path = $"{UnityGame.InstallPath}\\UserData\\CustomFailText\\Default.txt";
-                if (File.Exists(path))
-                {
-                    allEntries = ReadFromFile();
-                    Log.Info($"Config {Configuration.selectedConfig} contains {allEntries.Count} entries.");
-                }
+                allEntries = ReadFromFile();
+                Log.Info($"Config {PluginConfig.Instance.SelectedConfig} contains {allEntries.Count} entries.");
             }
             else
-            {
+            { 
                 allCustomEntries = ReadFromCustomFile();
-                Log.Info($"Config {Configuration.selectedConfig} contains {allCustomEntries.Count} entries.");
+                Log.Info($"Config {PluginConfig.Instance.SelectedConfig} contains {allCustomEntries.Count} entries.");
             }
         }
 
@@ -93,10 +94,10 @@ namespace CustomFailText
             { 
                 Log.Warn($"No file {name} found at {path}. Making one now.");
                 {
-                    Directory.CreateDirectory($"{UnityGame.InstallPath}\\UserData\\CustomFailText");
+                    Directory.CreateDirectory(path);
                     using (FileStream fs = File.Create(path + name))
                     {
-                        byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
+                        Byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
                             ("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n"));
                         fs.Write(info, 0, info.Length);
                         Log.Notice($"New file {name} was created successfully at {path}!");
@@ -105,14 +106,15 @@ namespace CustomFailText
             }
         }
 
-        //Reads lines from selected config in mod menu.
+        //Reads lines from selected config with name mathcing mod settings field.
         public static List<string[]> ReadFromCustomFile()
         {
+            PluginConfig settings = new PluginConfig();
             List<string[]> entriesInCustomFile = new List<string[]>();
             string path = $"{UnityGame.UserDataPath}\\CustomFailText\\";
-            string chosenConfig = $"{Configuration.selectedConfig}.txt";
+            string chosenConfig = $"{settings.SelectedConfig}.txt";
 
-            if (Configuration.selectedConfig != "Default")
+            if (settings.SelectedConfig != "Default")
             {
                 var linesInFile = File.ReadLines(path + chosenConfig, new UTF8Encoding(true));
                 linesInFile = linesInFile.Where(s => s == "" || s[0] != '#');
@@ -142,7 +144,7 @@ namespace CustomFailText
             return entriesInCustomFile;
         }
 
-        //Reads lines from default file.
+        //Reads lines only from "Default.txt" and populates entries.
         public static List<string[]> ReadFromFile()
         {
             List<string[]> entriesInFile = new List<string[]>();
@@ -180,7 +182,7 @@ namespace CustomFailText
         }
         public const string DEFAULT_CONFIG =
         #region Default Config
-@"# Custom Fail Text v1.0.2
+@"# Custom Fail Text v1.1.0
 # by Exomanz
 #
 # Use # for comments!
