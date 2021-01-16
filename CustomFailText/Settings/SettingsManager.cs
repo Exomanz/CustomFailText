@@ -3,42 +3,32 @@ using IPA.Utilities;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace CustomFailText.Settings
 {
     public class SettingsManager : PersistentSingleton<SettingsManager>
     {
+        #region Basic Settings
         [UIValue("enabled")]
         public bool Enabled
         {
-            get => Configuration.config.GetBool("Text", "enablePlugin", true, true);
-            set
-            {
-                Configuration.enablePlugin = value;
-                Configuration.config.SetBool("Text", "enablePlugin", value);
-            }
+            get => PluginConfig.Instance.Enabled;
+            set => PluginConfig.Instance.Enabled = value;
         }
 
-        [UIValue("italics")]
-        public bool Italics
+        [UIValue("disableItalics")]
+        public bool DisableItalics
         {
-            get => Configuration.config.GetBool("Text", "italicText", false, true);
-            set
-            {
-                Configuration.italicText = value;
-                Configuration.config.SetBool("Text", "italicText", value);
-            }
+            get => PluginConfig.Instance.DisableItalics;
+            set => PluginConfig.Instance.DisableItalics = value;
         }
 
         [UIValue("selectedConfig")]
         public string SelectedConfig
         {
-            get => Configuration.config.GetString("Text", "config", "Default", true);
-            set
-            {
-                Configuration.selectedConfig = value;
-                Configuration.config.SetString("Text", "config", value);
-            }
+            get => PluginConfig.Instance.SelectedConfig;
+            set => PluginConfig.Instance.SelectedConfig = value;
         }
 
         [UIValue("configList")]
@@ -57,43 +47,29 @@ namespace CustomFailText.Settings
             }
             return configs;
         }
+        #endregion
 
-        #region Color Provider
-        [UIValue("topBacklightColor")]
-        public string TopBacklightColor
+        #region Color Manager
+        [UIValue("topColor")]
+        public Color TopColor
         {
-            get => Configuration.config.GetString("Lights", "topLightColor", "Default", true);
-            set
-            {
-                Configuration.topLightColor = value;
-                Configuration.config.SetString("Lights", "topLightColor", value);
-            }
+            get => PluginConfig.Instance.topColor;
+            set => PluginConfig.Instance.topColor = value;
         }
 
-        [UIValue("midBacklightColor")]
-        public string MidBacklightColor
+        [UIValue("midColor")]
+        public Color MidColor
         {
-            get => Configuration.config.GetString("Lights", "midLightColor", "Default", true);
-            set
-            {
-                Configuration.midLightColor = value;
-                Configuration.config.SetString("Lights", "midLightColor", value);
-            }
+            get => PluginConfig.Instance.midColor;
+            set => PluginConfig.Instance.midColor = value;
         }
 
-        [UIValue("botBacklightColor")]
-        public string BotBacklightColor
+        [UIValue("bottomColor")]
+        public Color BottomColor
         {
-            get => Configuration.config.GetString("Lights", "botLightColor", "Default", true);
-            set
-            {
-                Configuration.botLightColor = value;
-                Configuration.config.SetString("Lights", "botLightColor", value);
-            }
+            get => PluginConfig.Instance.bottomColor;
+            set => PluginConfig.Instance.bottomColor = value;
         }
-        
-        [UIValue("colorsList")]
-        public List<object> colorsList = new object[] { "Red", "Blue", "Cyan", "Gray", "Green", "Magenta", "Yellow", "White" }.ToList();
         #endregion
     }
 }
