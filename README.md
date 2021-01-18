@@ -1,5 +1,5 @@
-# CustomFailText
-Changes the default `LEVEL FAILED` text effect to something more customizable. It's your text; make it what you want.
+# CustomFailText -- It's your text; make it what you want.
+Changes the default `LEVEL FAILED` text effect to something more customizable.
 
 All credits for the original source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
 
@@ -9,9 +9,10 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 * Supports multiple config files, custom fail effect colors, all available from the `Mod Settings` menu.
 
 ## Roadpath
-* Migrate settings to menu button.
-* Hot-reloading of config files.
-* Further optimizations.
+* ~~Migrate settings to menu button.~~
+   * Unfortunately, the most painless approach (as of now) would be to rewrite the mod using Zenject, so for now it's off the table. This might happen sometime in the near future, though. :)
+* Allow for deletion of config files, as well as refreshing the list of them, among other small things within the `Mod Settings` menu.
+* Further optimizations and performance improvements.
 
 ## Dependencies
 * BSIPA v4.1.3+
@@ -29,8 +30,8 @@ ENTRY
 
 This is also one entry.
 
-# Don't forget that TMP Styling can be used here, too! You can leave your tags unclosed 
-# as long as it's either the end of the entry, or you want all of the entry to be that one tag.
+# Don't forget that TMP Styling can be used here, too! You can leave your tags unclosed (despite what it
+# says in the config) as long as it's either the end of the entry, or you want all of the entry to be that one tag.
 <size=+30>Hello world!
 
 Hello world! (but smaller)
@@ -38,7 +39,4 @@ Hello world! (but smaller)
 ```
 
 ## Installation
-Grab the latest version from the [Releases](https://github.com/Exomanz/CustomFailText/releases/latest "releases") page and install it in your Plugins folder at your Beat Saber directory. The mod will do all of the directory and file creation for you, unless you're making a custom file, in which case you have to do it yourself.
-
-## Contributing to CustomFailText
-Download the source code, and open the project in Visual Studio 2019. You may need to resolve your references, but after that you should be able to build the project. If you have any suggestions, feel free to submit a pull request!
+Grab the latest version from the [releases](https://github.com/Exomanz/CustomFailText/releases/latest "releases") page and install it in your Plugins folder at your Beat Saber directory. The mod will do all of the directory and file creation for you, unless you're making a custom text file, in which case you have to do it yourself.
