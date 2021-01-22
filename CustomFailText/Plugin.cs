@@ -2,15 +2,16 @@
 using BS_Utils.Utilities;
 using CustomFailText.Settings;
 using IPA;
+using Config = IPA.Config.Config;
 using IPA.Config.Stores;
 using IPA.Utilities;
-using IPALogger = IPA.Logging.Logger;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using IPALogger = IPA.Logging.Logger;
 
 namespace CustomFailText
 {
@@ -20,14 +21,13 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         internal string Name => "CustomFailText";
-        internal string Version => " v1.1.0";
+        internal string Version => "v1.1.1";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
-        public static List<string[]> allCustomEntries = null;
 
 
         [Init]
-        public void Init(IPALogger logger, IPA.Config.Config conf)
+        public void Init(IPALogger logger, Config conf)
         {
             Instance = this;
             Log = logger;
@@ -37,7 +37,7 @@ namespace CustomFailText
         [OnStart]
         public void OnStart()
         {
-            Log.Info($"{Name + Version} Initialized.");
+            Log.Info($"{Name} {Version} Initialized.");
             CheckForDefault();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
@@ -49,39 +49,31 @@ namespace CustomFailText
         public void OnExit()
         { }
 
-        private void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
+        void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
-            Log.Info("Menu Scene Loaded Fresh");
+            Log.Debug("Menu Scene Loaded Fresh");
             ReloadFile();
         }
-        private void OnMenuSceneLoaded()
+        void OnMenuSceneLoaded()
         {
-            Log.Info("Menu Scene Loaded");
+            Log.Debug("Menu Scene Loaded");
         }
-        private void OnGameSceneLoaded()
+        void OnGameSceneLoaded()
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Log.Info("Game Scene Loaded");
+                Log.Debug("Game Scene Loaded");
                 new GameObject("_MasterUpdater", new Type[] { typeof(Updater)});
             }
         }
 
-        public void ReloadFile()
+        void ReloadFile()
         {
-            if (PluginConfig.Instance.SelectedConfig == "Default")
-            {
-                allEntries = ReadFromFile();
-                Log.Info($"Config {PluginConfig.Instance.SelectedConfig} contains {allEntries.Count} entries.");
-            }
-            else
-            { 
-                allCustomEntries = ReadFromCustomFile();
-                Log.Info($"Config {PluginConfig.Instance.SelectedConfig} contains {allCustomEntries.Count} entries.");
-            }
+            allEntries = ReadFromFile();
+            Log.Info($"Config {PluginConfig.Instance.SelectedConfig} contains {allEntries.Count} entries.");
         }
 
-        private void CheckForDefault()
+        void CheckForDefault()
         {
             string path = $"{UnityGame.InstallPath}\\UserData\\CustomFailText\\";
             string name = "Default.txt";
@@ -97,7 +89,7 @@ namespace CustomFailText
                     Directory.CreateDirectory(path);
                     using (FileStream fs = File.Create(path + name))
                     {
-                        Byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
+                        byte[] info = new UTF8Encoding(true).GetBytes(DEFAULT_CONFIG.Replace
                             ("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n"));
                         fs.Write(info, 0, info.Length);
                         Log.Notice($"New file {name} was created successfully at {path}!");
@@ -107,82 +99,43 @@ namespace CustomFailText
         }
 
         //Reads lines from selected config with name mathcing mod settings field.
-        public static List<string[]> ReadFromCustomFile()
-        {
-            PluginConfig settings = new PluginConfig();
-            List<string[]> entriesInCustomFile = new List<string[]>();
-            string path = $"{UnityGame.UserDataPath}\\CustomFailText\\";
-            string chosenConfig = $"{settings.SelectedConfig}.txt";
-
-            if (settings.SelectedConfig != "Default")
-            {
-                var linesInFile = File.ReadLines(path + chosenConfig, new UTF8Encoding(true));
-                linesInFile = linesInFile.Where(s => s == "" || s[0] != '#');
-
-                List<string> currentEntry = new List<string>();
-                foreach (string line in linesInFile)
-                {
-                    if (line == "")
-                    {
-                        entriesInCustomFile.Add(currentEntry.ToArray());
-                        currentEntry.Clear();
-                    }
-                    else
-                    {
-                        currentEntry.Add(line);
-                    }
-                }
-                if (currentEntry.Count != 0)
-                {
-                    entriesInCustomFile.Add(currentEntry.ToArray());
-                }
-                if (currentEntry.Count == 0)
-                {
-                    Log.Warn("Custom config found, but no entries were found!");
-                }
-            }
-            return entriesInCustomFile;
-        }
-
-        //Reads lines only from "Default.txt" and populates entries.
         public static List<string[]> ReadFromFile()
         {
             List<string[]> entriesInFile = new List<string[]>();
-            string path = $"{UnityGame.InstallPath}\\UserData\\CustomFailText\\";
-            string fileName = "Default.txt";
+            string path = $"{UnityGame.UserDataPath}\\CustomFailText\\";
+            string chosenConfig = $"{PluginConfig.Instance.SelectedConfig}.txt";
 
-            if (File.Exists(path + fileName))
+            var linesInFile = File.ReadLines(path + chosenConfig, new UTF8Encoding(true));
+            linesInFile = linesInFile.Where(s => s == "" || s[0] != '#');
+
+            List<string> currentEntry = new List<string>();
+            foreach (string line in linesInFile)
             {
-                var linesInFile = File.ReadLines(path + fileName, new UTF8Encoding(true));
-                linesInFile = linesInFile.Where(s => s == "" || s[0] != '#');
-
-                List<string> currentEntry = new List<string>();
-                foreach (string line in linesInFile)
-                {
-                    if (line == "")
-                    {
-                        entriesInFile.Add(currentEntry.ToArray());
-                        currentEntry.Clear();
-                    }
-                    else
-                    {
-                        currentEntry.Add(line);
-                    }
-                }
-                if (currentEntry.Count != 0)
+                if (line == "")
                 {
                     entriesInFile.Add(currentEntry.ToArray());
+                    currentEntry.Clear();
                 }
-                if (entriesInFile.Count == 0)
+                else
                 {
-                    Log.Warn("File found, but it contained no entries!");
+                    currentEntry.Add(line);
                 }
             }
+            if (currentEntry.Count != 0)
+            {
+                entriesInFile.Add(currentEntry.ToArray());
+            }
+            if (currentEntry.Count == 0)
+            {
+                Log.Warn("Config found, but no entries were found!");
+            }
+
             return entriesInFile;
         }
+
         public const string DEFAULT_CONFIG =
         #region Default Config
-@"# Custom Fail Text v1.1.0
+@"# Custom Fail Text v1.1.1
 # by Exomanz
 #
 # Use # for comments!
@@ -192,7 +145,7 @@ LEVEL
 FAILED
 
 # TextMeshPro formatting (such as colors) works here!
-# Unlike CustomMenuText, each entry is all one piece of text, so remember to close your tags at the end of each line!
+# Unlike CustomMenuText, each entry is all one piece of text.
 THAT WAS
 <#0080FF>B<#800000>S</color>
 

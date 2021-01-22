@@ -1,16 +1,18 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<settings-container>
 		<vertical vertical-fit='PreferredSize' bg='panel-top' pad-top='1' pad-left='5' pad-right='5' spacing='-2'>
-			<text text='Custom Fail Text' font-size='8' italics='True' align='Center'/>
+			<text text='CustomFailText' font-size='8' italics='True' align='Center'/>
 			<horizontal horizontal-fit='PreferredSize' spacing='1'>
 				<text text='Version:' italics='True' align='Center'/>
-				<text text='v1.1.0' color='Lime' italics='True' align='Center'/>
+				<text text='v1.1.1' color='Lime' italics='True' align='Center'/>
 			</horizontal>
 		</vertical>
 		<vertical vertical-fit='PreferredSize'>
 			<bool-setting text='Enable Plugin' value='enabled'/>
 			<bool-setting text='Disable Italics Text' value='disableItalics'/>
-			<dropdown-list-setting text='Available Configs' value='selectedConfig' choices='configList'/>
+			<dropdown-list-setting text='Available Configs'
+								   value='selectedConfig'
+								   choices='configList'/>
 		</vertical>
 		<horizontal horizontal-fit='PreferredSize' pad-top='3'>
 			<settings-submenu text='--Light Settings--' italics='True'>
