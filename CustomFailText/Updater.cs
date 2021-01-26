@@ -6,53 +6,44 @@ namespace CustomFailText
 {
     public class Updater : MonoBehaviour
     {
-        private TubeBloomPrePassLight lightTop; //Top Light
-        private TubeBloomPrePassLight lightMid; //Middle Light
-        private TubeBloomPrePassLight lightBottom; //Bottom Light
+        TubeBloomPrePassLight lightTop; //Top Light
+        TubeBloomPrePassLight lightMid; //Middle Light
+        TubeBloomPrePassLight lightBottom; //Bottom Light
         public TextMeshPro targetText;
         public GameEnergyCounter energyCounter;
-        public bool updated;
+        public bool updated = false;
 
-        public void Start()
+        void Start()
         {
             targetText = GameObject.Find("LevelFailedTextEffect")?.GetComponent<TextMeshPro>();
             energyCounter = GameObject.Find("GameplayData")?.GetComponent<GameEnergyCounter>();
-            updated = false;
         }
 
-        public void LateUpdate()
+        void LateUpdate()
         {
             if (energyCounter.energy < 1E-05f) PreUpdates();
         }
         
-        private void PreUpdates()
+        void PreUpdates()
         {
             lightTop = GameObject.Find("Neon2")?.GetComponent<TubeBloomPrePassLight>();
             lightMid = GameObject.Find("Neon0")?.GetComponent<TubeBloomPrePassLight>();
             lightBottom = GameObject.Find("Neon1")?.GetComponent<TubeBloomPrePassLight>();
 
-            if (lightTop != null && lightMid != null && lightBottom != null) Randomize();
+            if (lightTop != null && lightMid != null && lightBottom != null) Randomizer();
             else return;
         }
 
-        private void Randomize()
+        void Randomizer()
         {
             System.Random r = new System.Random();
-            if (PluginConfig.Instance.SelectedConfig == "Default")
-            {
-                int entryPicked = r.Next(Plugin.allEntries.Count);
-                Updates(Plugin.allEntries[entryPicked]);
-            }
-            else
-            {
-                int entryPicked = r.Next(Plugin.allCustomEntries.Count);
-                Updates(Plugin.allCustomEntries[entryPicked]);
-            }
+            int entryPicked = r.Next(Plugin.allEntries.Count);
+            Updates(Plugin.allEntries[entryPicked]);
         }
 
-        private void Updates(string[] lines) 
+        void Updates(string[] lines) 
         {
-            if (updated == false)
+            if (!updated)
             {
                 //Standard Updates
                 targetText.overflowMode = TextOverflowModes.Overflow;
@@ -64,9 +55,9 @@ namespace CustomFailText
                 if (PluginConfig.Instance.DisableItalics) targetText.fontStyle = FontStyles.Normal;
 
                 //Color Manager
-                lightBottom.color = PluginConfig.Instance.topColor;
+                lightTop.color = PluginConfig.Instance.topColor;
                 lightMid.color = PluginConfig.Instance.midColor;
-                lightTop.color = PluginConfig.Instance.bottomColor;
+                lightBottom.color = PluginConfig.Instance.bottomColor;
             }
         }
     }

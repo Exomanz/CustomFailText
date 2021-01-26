@@ -2,7 +2,6 @@
 using BS_Utils.Utilities;
 using CustomFailText.Settings;
 using IPA;
-using Config = IPA.Config.Config;
 using IPA.Config.Stores;
 using IPA.Utilities;
 using System;
@@ -11,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Config = IPA.Config.Config;
 using IPALogger = IPA.Logging.Logger;
 
 namespace CustomFailText
@@ -21,7 +21,7 @@ namespace CustomFailText
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
         internal string Name => "CustomFailText";
-        internal string Version => "v1.1.1";
+        internal string Version => "v1.1.2";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
 
@@ -63,7 +63,7 @@ namespace CustomFailText
             if (PluginConfig.Instance.Enabled)
             {
                 Log.Debug("Game Scene Loaded");
-                new GameObject("_MasterUpdater", new Type[] { typeof(Updater)});
+                new GameObject("_MasterUpdater", new Type[] { typeof(Updater) });
             }
         }
 
@@ -83,7 +83,7 @@ namespace CustomFailText
                 return;
             }
             else
-            { 
+            {
                 Log.Warn($"No file {name} found at {path}. Making one now.");
                 {
                     Directory.CreateDirectory(path);
@@ -135,7 +135,7 @@ namespace CustomFailText
 
         public const string DEFAULT_CONFIG =
         #region Default Config
-@"# Custom Fail Text v1.1.1
+@"# Custom Fail Text v1.1.2
 # by Exomanz
 #
 # Use # for comments!
@@ -145,7 +145,6 @@ LEVEL
 FAILED
 
 # TextMeshPro formatting (such as colors) works here!
-# Unlike CustomMenuText, each entry is all one piece of text.
 THAT WAS
 <#0080FF>B<#800000>S</color>
 
@@ -185,7 +184,7 @@ OVER
 
 # the ""empty"" line in this one actually has a space in it, so it doesn't separate entries
 DEFEAT<size=-5>
-
+ 
 PLAY OF THE GAME:</size>
 <#800000>RED BLOCK</color>
 
