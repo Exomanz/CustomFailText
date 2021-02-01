@@ -14,6 +14,7 @@ namespace CustomFailText.Settings
         public virtual bool DisableItalics { get; set; } = false;
         public virtual string SelectedConfig { get; set; } = "Default";
 
+        public virtual bool EnableLights { get; set; } = false;
         [UseConverter(typeof(HexColorConverter))]
         public virtual Color topColor { get; set; } = Color.red;
         [UseConverter(typeof(HexColorConverter))]

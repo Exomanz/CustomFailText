@@ -1,6 +1,6 @@
-﻿using BeatSaberMarkupLanguage.Settings;
-using BS_Utils.Utilities;
+﻿using BS_Utils.Utilities;
 using CustomFailText.Settings;
+using CustomFailText.Settings.UI;
 using IPA;
 using IPA.Config.Stores;
 using IPA.Utilities;
@@ -20,11 +20,8 @@ namespace CustomFailText
     {
         public static Plugin Instance { get; private set; }
         public static IPALogger Log { get; private set; }
-        internal string Name => "CustomFailText";
-        internal string Version => "v1.1.2";
         public static readonly string[] DEFAULT_TEXT = { "LEVEL", "FAILED" };
         public static List<string[]> allEntries = null;
-
 
         [Init]
         public void Init(IPALogger logger, Config conf)
@@ -37,27 +34,24 @@ namespace CustomFailText
         [OnStart]
         public void OnStart()
         {
-            Log.Info($"{Name} {Version} Initialized.");
+            Log.Info("CustomFailText v1.1.3 Initialized.");
             CheckForDefault();
             BSEvents.lateMenuSceneLoadedFresh += OnMenuSceneLoadedFresh;
             BSEvents.menuSceneLoaded += OnMenuSceneLoaded;
             BSEvents.gameSceneLoaded += OnGameSceneLoaded;
-            BSMLSettings.instance.AddSettingsMenu("Custom Fail Text", "CustomFailText.Settings.Views.settings.bsml", SettingsManager.instance);
+            MenuUIHandler.CreateMenu();
         }
 
         [OnExit]
-        public void OnExit()
-        { }
+        public void OnExit() { }
 
         void OnMenuSceneLoadedFresh(ScenesTransitionSetupDataSO data)
         {
             Log.Debug("Menu Scene Loaded Fresh");
             ReloadFile();
         }
-        void OnMenuSceneLoaded()
-        {
-            Log.Debug("Menu Scene Loaded");
-        }
+        void OnMenuSceneLoaded() => Log.Debug("Menu Scene Loaded");
+
         void OnGameSceneLoaded()
         {
             if (PluginConfig.Instance.Enabled)
@@ -78,10 +72,8 @@ namespace CustomFailText
             string path = $"{UnityGame.InstallPath}\\UserData\\CustomFailText\\";
             string name = "Default.txt";
 
-            if (File.Exists(path + name))
-            {
-                return;
-            }
+            if (File.Exists(path + name)) return;
+
             else
             {
                 Log.Warn($"No file {name} found at {path}. Making one now.");
@@ -116,26 +108,17 @@ namespace CustomFailText
                     entriesInFile.Add(currentEntry.ToArray());
                     currentEntry.Clear();
                 }
-                else
-                {
-                    currentEntry.Add(line);
-                }
+                else currentEntry.Add(line);
             }
-            if (currentEntry.Count != 0)
-            {
-                entriesInFile.Add(currentEntry.ToArray());
-            }
-            if (currentEntry.Count == 0)
-            {
-                Log.Warn("Config found, but no entries were found!");
-            }
+            if (currentEntry.Count != 0) entriesInFile.Add(currentEntry.ToArray());
+            if (currentEntry.Count == 0) Log.Warn("Config found, but no entries were found!");
 
             return entriesInFile;
         }
 
         public const string DEFAULT_CONFIG =
         #region Default Config
-@"# Custom Fail Text v1.1.2
+@"# Custom Fail Text v1.1.3
 # by Exomanz
 #
 # Use # for comments!

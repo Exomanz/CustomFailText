@@ -9,9 +9,9 @@ namespace CustomFailText
         TubeBloomPrePassLight lightTop; //Top Light
         TubeBloomPrePassLight lightMid; //Middle Light
         TubeBloomPrePassLight lightBottom; //Bottom Light
-        public TextMeshPro targetText;
-        public GameEnergyCounter energyCounter;
-        public bool updated = false;
+        TextMeshPro targetText;
+        GameEnergyCounter energyCounter;
+        bool updated = false;
 
         void Start()
         {
@@ -55,9 +55,12 @@ namespace CustomFailText
                 if (PluginConfig.Instance.DisableItalics) targetText.fontStyle = FontStyles.Normal;
 
                 //Color Manager
-                lightTop.color = PluginConfig.Instance.topColor;
-                lightMid.color = PluginConfig.Instance.midColor;
-                lightBottom.color = PluginConfig.Instance.bottomColor;
+                if (PluginConfig.Instance.EnableLights)
+                {
+                    lightTop.color = PluginConfig.Instance.topColor;
+                    lightMid.color = PluginConfig.Instance.midColor;
+                    lightBottom.color = PluginConfig.Instance.bottomColor;
+                }
             }
         }
     }
