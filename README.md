@@ -9,8 +9,6 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 * Supports multiple config files, custom fail effect colors, all available from the `Mod Settings` menu.
 
 ## Roadpath
-* ~~Migrate settings to menu button.~~
-   * Unfortunately, the most painless approach (as of now) would be to rewrite the mod using Zenject, so for now it's off the table. This might happen sometime in the near future, though. :)
 * Allow for deletion of config files, as well as refreshing the list of them, among other small things within the `Mod Settings` menu.
 * Further optimizations and performance improvements.
 
