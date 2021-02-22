@@ -3,7 +3,7 @@
   "id": "CustomFailText",
   "name": "CustomFailText",
   "author": "Exomanz",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "It's your text; make it what you want.",
   "gameVersion": "1.13.2",
   "dependsOn": {

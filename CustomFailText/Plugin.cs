@@ -20,11 +20,11 @@ namespace CustomFailText
 
             zenjector.OnApp<TAppInstaller>().WithParameters(config);
             zenjector.OnMenu<TMenuInstaller>();
-            zenjector.OnGame<TGameInstaller>();
+            zenjector.OnGame<TGameInstaller>().ShortCircuitForTutorial();
         }
 
         [OnStart]
-        public void OnStart() => Logger.log.Info("CustomFailText v1.2.0 Initialized");
+        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1 Initialized");
 
         [OnExit]
         public void OnExit() { }

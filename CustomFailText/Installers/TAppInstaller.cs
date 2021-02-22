@@ -11,7 +11,7 @@ namespace CustomFailText.Installers
         public override void InstallBindings()
         {
             Container.Bind<PluginConfig>().FromInstance(_config).AsSingle();
-            Container.Bind(typeof(IInitializable), typeof(ResourceHandler)).To<ResourceHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ResourceHandler>().AsSingle();
         }
     }
 }

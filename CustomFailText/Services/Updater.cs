@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -7,6 +9,10 @@ namespace CustomFailText.Services
 {
     public class Updater : IInitializable, IDisposable
     {
+        TubeBloomPrePassLight _topL;
+        TubeBloomPrePassLight _midL;
+        TubeBloomPrePassLight _bottomL;
+
         PluginConfig _config;
         ILevelEndActions _actions;
         TextMeshPro _text;
@@ -22,7 +28,17 @@ namespace CustomFailText.Services
         public void Initialize()
         {
             _text = GameObject.Find(nameof(LevelFailedTextEffect)).GetComponent<TextMeshPro>();
-            _actions.levelFailedEvent += Randomizer;
+            _actions.levelFailedEvent += Lights;
+        }
+
+        async void Lights()
+        {
+            await Task.Run(() => Thread.Sleep(100));
+            _topL = GameObject.Find("Neon2").GetComponent<TubeBloomPrePassLight>();
+            _midL = GameObject.Find("Neon0").GetComponent<TubeBloomPrePassLight>();
+            _bottomL = GameObject.Find("Neon1").GetComponent<TubeBloomPrePassLight>();
+
+            if (_topL != null && _midL != null && _bottomL != null) Randomizer();
         }
 
         void Randomizer()
@@ -44,9 +60,17 @@ namespace CustomFailText.Services
 
                 //Italics
                 if (_config.DisableItalics) _text.fontStyle = FontStyles.Normal;
+
+                //Colors
+                if (_config.EnableLights)
+                {
+                    _topL.color = _config.topColor;
+                    _midL.color = _config.midColor;
+                    _bottomL.color = _config.bottomColor;
+                }
             }
         }
 
-        public void Dispose() => _actions.levelFailedEvent -= Randomizer;
+        public void Dispose() => _actions.levelFailedEvent -= Lights;
     }
 }

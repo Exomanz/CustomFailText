@@ -69,7 +69,7 @@ namespace CustomFailText.Services
         }
 
         const string _defaultConf =
-@"# Custom Fail Text v1.1.4
+@"# Custom Fail Text v1.2.1
 # by Exomanz
 #
 # Use # for comments!
