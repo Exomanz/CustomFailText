@@ -20,11 +20,14 @@ namespace CustomFailText
 
             zenjector.OnApp<TAppInstaller>().WithParameters(config);
             zenjector.OnMenu<TMenuInstaller>();
-            zenjector.OnGame<TGameInstaller>().ShortCircuitForTutorial();
+
+            //Stupid fix for a simple problem LULW
+            zenjector.OnGame<TStandardInstaller>().ShortCircuitForTutorial().ShortCircuitForMultiplayer();
+            zenjector.OnGame<TMultiInstaller>().ShortCircuitForTutorial().ShortCircuitForStandard();
         }
 
         [OnStart]
-        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1 Initialized");
+        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1.1 Initialized");
 
         [OnExit]
         public void OnExit() { }
