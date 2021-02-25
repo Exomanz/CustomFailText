@@ -9,12 +9,11 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 * Supports multiple config files, custom fail effect colors, all available from the `Mod Settings` menu.
 
 ## Roadpath
-* Allow for deletion of config files, as well as refreshing the list of them, among other small things within the `Mod Settings` menu.
-* Further optimizations and performance improvements.
+* Different animations? Override color tags? Not quite sure.
 
 ## Dependencies
 * BSIPA v4.1.3+
-* BS Utils v1.6.5+
+* SiraUtil v2.5.1+
 * BeatSaberMarkupLanguage v1.4.2+
 
 ## Config File Format
