@@ -6,7 +6,7 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 ## Features
 * Picks a random entry from the selected config file at `Beat Saber/UserData/CustomFailText/`. You may also create your own here (see formatting below).
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
-* Supports multiple config files, custom fail effect colors, all available from the `Mod Settings` menu.
+* Supports multiple config files and custom fail effect colors.
 
 ## Roadpath
 * Different animations? Override color tags? Not quite sure.
