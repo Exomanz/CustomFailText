@@ -3,30 +3,43 @@ using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace CustomFailText.Services
 {
     public class MPUpdater : IInitializable, IDisposable
     {
+        //Lights
         TubeBloomPrePassLight _topL;
         TubeBloomPrePassLight _midL;
         TubeBloomPrePassLight _bottomL;
 
+        //Interfaces And Objects
         IMultiplayerLevelEndActionsPublisher _actions;
+        IMultiplayerSessionManager _manager;
         PluginConfig _config;
         TextMeshPro _text;
         bool updated = false;
 
         [Inject]
-        public MPUpdater(PluginConfig config, IMultiplayerLevelEndActionsPublisher actions)
+        public MPUpdater(PluginConfig config, IMultiplayerLevelEndActionsPublisher actions, IMultiplayerSessionManager manager)
         {
             _config = config;
             _actions = actions;
+            _manager = manager;
         }
 
-        public void Initialize() => _actions.playerDidFinishEvent += HandlePlayerDidFinish;
+        public void Initialize() => CheckSpectating();
+
+        void CheckSpectating()
+        {
+            if (_manager.localPlayer.HasState("is_active"))
+            {
+                Logger.log.Debug("Player is playing.");
+                _actions.playerDidFinishEvent += HandlePlayerDidFinish;
+            }
+            else Logger.log.Debug("Player is spectating. Disabling updater.");
+        }
 
         void HandlePlayerDidFinish(LevelCompletionResults results) 
             { if (results.levelEndStateType == LevelCompletionResults.LevelEndStateType.Failed) GetObjects(); }
@@ -72,6 +85,6 @@ namespace CustomFailText.Services
             }
         }
 
-        public void Dispose() { _actions.playerDidFinishEvent -= HandlePlayerDidFinish; }
+        public void Dispose() => _actions.playerDidFinishEvent -= HandlePlayerDidFinish;
     }
 }

@@ -10,8 +10,6 @@ namespace CustomFailText
     [Plugin(RuntimeOptions.SingleStartInit)]
     public class Plugin
     {
-        internal static Plugin Instance { get; private set; }
-
         [Init]
         public Plugin(IPALogger logger, IPAConfig conf, Zenjector zenjector)
         {
@@ -21,13 +19,13 @@ namespace CustomFailText
             zenjector.OnApp<TAppInstaller>().WithParameters(config);
             zenjector.OnMenu<TMenuInstaller>();
 
-            //Stupid fix for a simple problem LULW
-            zenjector.OnGame<TStandardInstaller>().ShortCircuitForTutorial().ShortCircuitForMultiplayer();
-            zenjector.OnGame<TMultiInstaller>().ShortCircuitForTutorial().ShortCircuitForStandard();
+            //Differentiated standard and multiplayer to make the game playable
+            zenjector.OnGame<TStandardInstaller>().OnlyForStandard();
+            zenjector.OnGame<TMultiInstaller>().OnlyForMultiplayer();
         }
 
         [OnStart]
-        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1.1 Initialized");
+        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1.2 Initialized");
 
         [OnExit]
         public void OnExit() { }
