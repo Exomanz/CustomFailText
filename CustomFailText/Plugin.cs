@@ -25,7 +25,8 @@ namespace CustomFailText
         }
 
         [OnStart]
-        public void OnStart() => Logger.log.Info("CustomFailText v1.2.1.2 Initialized");
+        public void OnStart() =>
+            Logger.log.Info("CustomFailText v1.3.0 Initialized");
 
         [OnExit]
         public void OnExit() { }

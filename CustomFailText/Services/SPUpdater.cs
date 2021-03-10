@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -7,36 +6,39 @@ using Zenject;
 
 namespace CustomFailText.Services
 {
-    public class SPUpdater : IInitializable, IDisposable
+    public class SPUpdater : IInitializable
     {
         TubeBloomPrePassLight _topL;
         TubeBloomPrePassLight _midL;
         TubeBloomPrePassLight _bottomL;
 
-        PluginConfig _config;
         ILevelEndActions _actions;
+        PluginConfig _config;
+        ResourceHandler _handler;
         TextMeshPro _text;
         bool updated = false;
 
         [Inject]
-        public SPUpdater(PluginConfig config, ILevelEndActions actions)
+        public SPUpdater(PluginConfig config, ILevelEndActions actions, ResourceHandler handler)
         {
             _config = config;
             _actions = actions;
+            _handler = handler;
         }
 
         public void Initialize()
         {
-            _text = GameObject.Find(nameof(LevelFailedTextEffect)).GetComponent<TextMeshPro>();
+            _handler.ReloadFile();
             _actions.levelFailedEvent += Lights;
         }
 
         async void Lights()
         {
-            await Task.Run(() => Thread.Sleep(100));
+            await Task.Run(() => Thread.Sleep(50));
             _topL = GameObject.Find("Neon2").GetComponent<TubeBloomPrePassLight>();
             _midL = GameObject.Find("Neon0").GetComponent<TubeBloomPrePassLight>();
             _bottomL = GameObject.Find("Neon1").GetComponent<TubeBloomPrePassLight>();
+            _text = GameObject.Find(nameof(LevelFailedTextEffect)).GetComponentInChildren<TextMeshPro>();
 
             if (_topL != null && _midL != null && _bottomL != null) Randomizer();
         }
@@ -55,6 +57,9 @@ namespace CustomFailText.Services
                 //Standard
                 _text.overflowMode = TextOverflowModes.Overflow;
                 _text.enableWordWrapping = false;
+                _text.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+                _text.lineSpacing = -40f;
+                _text.richText = true;
                 _text.text = string.Join("\n", lines);
                 updated = true;
 
@@ -70,7 +75,5 @@ namespace CustomFailText.Services
                 }
             }
         }
-
-        public void Dispose() => _actions.levelFailedEvent -= Lights;
     }
 }

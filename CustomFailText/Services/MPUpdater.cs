@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -7,7 +6,7 @@ using Zenject;
 
 namespace CustomFailText.Services
 {
-    public class MPUpdater : IInitializable, IDisposable
+    public class MPUpdater : IInitializable
     {
         //Lights
         TubeBloomPrePassLight _topL;
@@ -18,18 +17,25 @@ namespace CustomFailText.Services
         IMultiplayerLevelEndActionsPublisher _actions;
         IMultiplayerSessionManager _manager;
         PluginConfig _config;
+        ResourceHandler _handler;
         TextMeshPro _text;
         bool updated = false;
 
         [Inject]
-        public MPUpdater(PluginConfig config, IMultiplayerLevelEndActionsPublisher actions, IMultiplayerSessionManager manager)
+        public MPUpdater(PluginConfig config, IMultiplayerLevelEndActionsPublisher actions, IMultiplayerSessionManager manager,
+            ResourceHandler handler)
         {
             _config = config;
             _actions = actions;
             _manager = manager;
+            _handler = handler;
         }
 
-        public void Initialize() => CheckSpectating();
+        public void Initialize()
+        {
+            CheckSpectating();
+            _handler.ReloadFile();
+        }
 
         void CheckSpectating()
         {
@@ -46,11 +52,11 @@ namespace CustomFailText.Services
 
         async void GetObjects()
         {
-            await Task.Run(() => Thread.Sleep(100));
+            await Task.Run(() => Thread.Sleep(60));
             _topL = GameObject.Find("Neon2").GetComponent<TubeBloomPrePassLight>();
             _midL = GameObject.Find("Neon0").GetComponent<TubeBloomPrePassLight>();
             _bottomL = GameObject.Find("Neon1").GetComponent<TubeBloomPrePassLight>();
-            _text = GameObject.Find(nameof(LevelFailedTextEffect)).GetComponent<TextMeshPro>();
+            _text = GameObject.Find(nameof(LevelFailedTextEffect)).GetComponentInChildren<TextMeshPro>();
 
             if (_topL != null && _midL != null && _bottomL != null && _text != null) Randomizer();
         }
@@ -69,6 +75,9 @@ namespace CustomFailText.Services
                 //Standard
                 _text.overflowMode = TextOverflowModes.Overflow;
                 _text.enableWordWrapping = false;
+                _text.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+                _text.lineSpacing = -40f;
+                _text.richText = true;
                 _text.text = string.Join("\n", lines);
                 updated = true;
 
@@ -84,7 +93,5 @@ namespace CustomFailText.Services
                 }
             }
         }
-
-        public void Dispose() => _actions.playerDidFinishEvent -= HandlePlayerDidFinish;
     }
 }

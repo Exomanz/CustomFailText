@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Zenject;
 
 namespace CustomFailText.Services
@@ -12,6 +13,7 @@ namespace CustomFailText.Services
         public static List<string[]> allEntries;
         static string _filePath = $"{UnityGame.UserDataPath}\\CustomFailText\\Default.txt";
         static PluginConfig _config;
+        public static ResourceHandler instance;
 
         [Inject]
         public ResourceHandler(PluginConfig config) => _config = config;
@@ -38,10 +40,10 @@ namespace CustomFailText.Services
             }
         }
 
-        void ReloadFile()
+        public void ReloadFile()
         {
             allEntries = ReadFromFile(_config.SelectedConfig + ".txt");
-            Logger.log.Info($"Config {_config.SelectedConfig} contains {allEntries.Count} entries.");
+            //Logger.log.Info($"Config {_config.SelectedConfig} contains {allEntries.Count} entries.");
         }
 
         static List<string[]> ReadFromFile(string config)
@@ -69,7 +71,7 @@ namespace CustomFailText.Services
         }
 
         const string _defaultConf =
-@"# Custom Fail Text v1.2.1
+@"# Custom Fail Text v1.3.0
 # by Exomanz
 #
 # Use # for comments!
