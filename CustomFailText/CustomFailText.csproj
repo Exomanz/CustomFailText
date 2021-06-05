@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5FD5B03B-B031-48C8-B0C7-28D742854217}</ProjectGuid>
+    <ProjectGuid>{5C262255-DB83-49FF-8052-72AC8BD8CE9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CustomFailText</RootNamespace>
@@ -17,9 +17,9 @@
     <LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
     <BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
     <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+    <LangVersion>8.0</LangVersion>
     <!--<PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>-->
     <ErrorReport>prompt</ErrorReport>
-    <LangVersion>8.0</LangVersion>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -41,24 +41,14 @@
     <DisableZipRelease>True</DisableZipRelease>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BGNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BGNet.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="BSML">
       <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BS_Utils">
-      <HintPath>$(BeatSaberDir)\Plugins\BS_Utils.dll</HintPath>
-      <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="GameplayCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="GameplayCore">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+      <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="HMRendering">
@@ -66,8 +56,8 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(BeatSaberDir)\Libs\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SemVer">
+      <HintPath>$(BeatSaberDir)\Libs\SemVer.dll</HintPath>
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -78,10 +68,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\System.Net.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -110,11 +96,6 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
-      <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
@@ -140,27 +121,25 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Zenject-usage, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="Zenject-usage">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+      <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Installers\TAppInstaller.cs" />
-    <Compile Include="Installers\TMultiInstaller.cs" />
-    <Compile Include="Installers\TStandardInstaller.cs" />
-    <Compile Include="Installers\TMenuInstaller.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Services\MPUpdater.cs" />
-    <Compile Include="Services\ResourceHandler.cs" />
-    <Compile Include="Services\SPUpdater.cs" />
+    <Compile Include="Installers\AppInstaller.cs" />
+    <Compile Include="Installers\GameInstaller.cs" />
+    <Compile Include="Installers\MenuInstaller.cs" />
+    <Compile Include="Services\ListBuilder.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PluginConfig.cs" />
-    <Compile Include="Settings\TMenuManager.cs" />
-    <Compile Include="Settings\TFlowCoordinator.cs" />
-    <Compile Include="Settings\TSettingsController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FailedEffectTextUpdater.cs" />
+    <Compile Include="UI\CFTFlowCoordinator.cs" />
+    <Compile Include="UI\CFTMenuButtonManager.cs" />
+    <Compile Include="UI\Settings\FailTextCreditsController.cs" />
+    <Compile Include="UI\Settings\FailTextSettingsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
@@ -168,7 +147,9 @@
   <ItemGroup>
     <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
     <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
-    <EmbeddedResource Include="Settings\Views\mainSettings.bsml" />
+    <None Include="CustomFailText.csproj.user" Condition="Exists('CustomFailText.csproj.user')" />
+    <EmbeddedResource Include="UI\Settings\Views\failTextSettingsController.bsml" />
+    <EmbeddedResource Include="UI\Settings\Views\credits.bsml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BeatSaberModdingTools.Tasks">
@@ -177,6 +158,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

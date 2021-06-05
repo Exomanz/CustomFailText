@@ -1,34 +1,42 @@
 ﻿using CustomFailText.Installers;
 using IPA;
 using IPA.Config.Stores;
-using SiraUtil.Zenject;
+using IPA.Loader;
+using IPA.Utilities;
 using IPAConfig = IPA.Config.Config;
 using IPALogger = IPA.Logging.Logger;
+using SiraUtil.Zenject;
+using System.IO;
 
 namespace CustomFailText
 {
-    [Plugin(RuntimeOptions.SingleStartInit)]
+    [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
         [Init]
-        public Plugin(IPALogger logger, IPAConfig conf, Zenjector zenjector)
+        public Plugin(IPALogger logger, IPAConfig config, PluginMetadata metadata, Zenjector zenjector)
         {
-            Logger.log = logger;
-            PluginConfig config = conf.Generated<PluginConfig>();
+            PluginConfig conf = config.Generated<PluginConfig>();
+            conf.Version = metadata.Version;
 
-            zenjector.OnApp<TAppInstaller>().WithParameters(config);
-            zenjector.OnMenu<TMenuInstaller>();
+            zenjector.OnApp<AppInstaller>().WithParameters(logger, conf);
+            zenjector.OnMenu<Installers.MenuInstaller>();
+            
+            zenjector.OnGame<GameInstaller>().Expose<LevelFailedTextEffect>().OnlyForStandard();
+            zenjector.OnGame<GameInstaller>(false).Expose<LevelFailedTextEffect>().OnlyForMultiplayer();
 
-            //Differentiated standard and multiplayer to make the game playable
-            zenjector.OnGame<TStandardInstaller>().OnlyForStandard();
-            zenjector.OnGame<TMultiInstaller>().OnlyForMultiplayer();
+            bool dir = Directory.Exists($@"{UnityGame.UserDataPath}\CustomFailText\");
+            if (!dir) Directory.CreateDirectory($@"{UnityGame.UserDataPath}\CustomFailText\");
         }
 
-        [OnStart]
-        public void OnStart() =>
-            Logger.log.Info("CustomFailText v1.3.0 Initialized");
+        [OnEnable]
+        public void Enable()
+        {
+        }
 
-        [OnExit]
-        public void OnExit() { }
+        [OnDisable]
+        public void Disable()
+        {
+        }
     }
 }
