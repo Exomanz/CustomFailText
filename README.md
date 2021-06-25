@@ -8,9 +8,6 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 * Offers TextMeshPro styling, including colors, size, and much more. See the [TextMeshPro documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/ "TextMeshPro Docs") for more information.
 * Supports multiple config files and custom fail effect colors.
 
-## Roadpath
-* Different animations? Override color tags? Not quite sure.
-
 ## Dependencies
 * BSIPA v4.1.3+
 * SiraUtil v2.5.1+
