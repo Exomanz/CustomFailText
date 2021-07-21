@@ -1,4 +1,4 @@
-# CustomFailText -- It's your text; make it what you want.
+# CustomFailText
 Changes the default `LEVEL FAILED` text effect to something more customizable.
 
 All credits for the original source code will go to [Arti](https://gitlab.com/artemiswkearney "The Original Modder").
@@ -9,9 +9,9 @@ All credits for the original source code will go to [Arti](https://gitlab.com/ar
 * Supports multiple config files and custom fail effect colors.
 
 ## Dependencies
-* BSIPA v4.1.3+
-* SiraUtil v2.5.1+
-* BeatSaberMarkupLanguage v1.4.2+
+* BSIPA v4.2.0+
+* SiraUtil v2.5.6+
+* BeatSaberMarkupLanguage v1.5.4+
 
 ## Config File Format
 Config files must be `.txt` files, and be formatted as follows.
