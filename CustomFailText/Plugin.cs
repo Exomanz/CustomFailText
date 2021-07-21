@@ -1,7 +1,6 @@
 ﻿using CustomFailText.Installers;
 using IPA;
 using IPA.Config.Stores;
-using IPA.Loader;
 using IPA.Utilities;
 using IPAConfig = IPA.Config.Config;
 using IPALogger = IPA.Logging.Logger;
@@ -14,10 +13,9 @@ namespace CustomFailText
     public class Plugin
     {
         [Init]
-        public Plugin(IPALogger logger, IPAConfig config, PluginMetadata metadata, Zenjector zenjector)
+        public Plugin(IPALogger logger, IPAConfig config, Zenjector zenjector)
         {
             PluginConfig conf = config.Generated<PluginConfig>();
-            conf.Version = metadata.Version;
 
             zenjector.OnApp<AppInstaller>().WithParameters(logger, conf);
             zenjector.OnMenu<Installers.MenuInstaller>();

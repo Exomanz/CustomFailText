@@ -1,16 +1,11 @@
 ﻿using IPA.Config.Stores.Attributes;
 using IPA.Config.Stores.Converters;
-using SemVer;
-using SiraUtil.Converters;
 using UnityEngine;
 
 namespace CustomFailText
 {
     public class PluginConfig
     {
-        [NonNullable, UseConverter(typeof(VersionConverter))]
-        public virtual Version Version { get; set; }
-
         //Base Settings
         public virtual bool Enabled { get; set; } = true;
         public virtual bool DisableItalics { get; set; } = true;

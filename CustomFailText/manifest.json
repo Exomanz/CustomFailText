@@ -3,13 +3,12 @@
   "id": "CustomFailText",
   "name": "CustomFailText",
   "author": "Exomanz",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Brings back Arti's original CustomFailText mod with more customization.",
-  "gameVersion": "1.16.1",
+  "gameVersion": "1.16.3",
   "dependsOn": {
-    "BSIPA": "^4.1.6",
-    "SiraUtil": "^2.5.5",
-    "BeatSaberMarkupLanguage":  "^1.5.3"
-  },
-  "features": []
+    "BSIPA": "^4.2.0",
+    "SiraUtil": "^2.5.6",
+    "BeatSaberMarkupLanguage":  "^1.5.4"
+  }
 }

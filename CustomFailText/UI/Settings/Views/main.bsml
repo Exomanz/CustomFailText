@@ -1,0 +1,31 @@
+﻿<vertical xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+	xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ 
+	https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+	<horizontal horizontal-fit='PreferredSize' spacing='5'>
+		<vertical pref-width='60' bg='round-rect-panel' pad='3'>
+			<checkbox text='Enabled' value='Enabled' bind-value='True' apply-on-change='True'/>
+			<dropdown-list-setting id='DDLSConfigs' text='Config' value='SelectedConfig' get-event='EmitRefreshConfigList' 
+								   choices='ConfigList' apply-on-change='True'/>
+			<button text='Refresh Configs' on-click='RefreshConfigList'/>
+		</vertical>
+
+		<vertical pref-width='60' bg='round-rect-panel' pad='3'>
+			<checkbox text='Disable Italics' value='DisableItalics' bind-value='True' apply-on-change='True' interactable='~Enabled'/>
+			<checkbox text='Light Colorer' value='LightColorer' bind-value='True' apply-on-change='True' interactable='~Enabled'/>
+			<button text='Color Manager' click-event='ShowColorSettings' interactable='~LightColorer'/>
+
+			<modal show-event='ShowColorSettings' hide-event='close' move-to-center='True' click-off-closes='True'
+				   size-delta-x='100' size-delta-y='45'>
+				<vertical vertical-fit='PreferredSize'>
+					<vertical bg='panel-top' pad-left='5' pad-right='5' pad-top='1'>
+						<text text='Color Manager' font-size='5' italics='True'/>
+					</vertical>
+					<color-setting text='Top Color' value='TopColor' bind-value='True' apply-on-change='True'/>
+					<color-setting text='Middle Color' value='MiddleColor' bind-value='True' apply-on-change='True'/>
+					<color-setting text='Bottom Color' value='BottomColor' bind-value='True' apply-on-change='True'/>
+					<button text='Close' click-event='close'/>
+				</vertical>
+			</modal>
+		</vertical>
+	</horizontal>
+</vertical>
